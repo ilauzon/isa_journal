@@ -1,0 +1,4 @@
+source_dir: '/home/isaac/mynotes/term4/comp4537/diary/'
+html_dir: './publish/html/'
+index_dir: './publish/'
+index_file_name: 'COMP4537 Diary Index'
