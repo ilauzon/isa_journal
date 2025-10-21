@@ -31,22 +31,27 @@ body {
   background-color: white;
   color: var(--color-text);
   font-size: 12pt;
-  padding: 1rem 4rem;
+  padding: 1rem;
   box-sizing: content-box;
   box-shadow: rgba(184, 194, 215, 0.25) 0px 4px 6px, rgba(184, 194, 215, 0.1) 0px 5px 7px;
   list-style-position: inside;
   font-optical-sizing: auto;
   border-radius: 8px;
+  margin: 0 auto;
+  max-width: 54em;
 
   /* Defaults from pandoc */
-  margin: 0 auto;
-  max-width: max(42em, 50vw);
   hyphens: auto;
   overflow-wrap: break-word;
   text-rendering: optimizeLegibility;
   font-kerning: normal;
 
   margin-bottom: 2rem;
+}
+
+#body-contents {
+  max-width: 42em;
+  margin: 0 auto;
 }
 
 /* Headings */

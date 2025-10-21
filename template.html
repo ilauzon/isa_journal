@@ -16,34 +16,40 @@
 </head>
 
 <body>
-    <header id="title-block-header">
-        <h1 class="title">${title}</h1>
-    </header>
-    ${contents}
-    <hr class="navDivider">
-    <nav>
-        % if previousPage is not None:
-        <p id="previousLink">
-            <a href="/${previousPage}">&larr; Previous</a>
-            % if seriesPage is not None:
-            <br>
-            In <a class="seriesLink" href="/${seriesPage}">${seriesPage}</a>
-            % endif
-        </p>
-        % endif
-        <p id="homeLink">
-            <a href="/">Home</a>
-        </p>
-        % if nextPage is not None:
-        <p id="nextLink">
-            <a href="/${nextPage}">Next &rarr;</a>
-            % if seriesPage is not None:
-            <br>
-            In <a class="seriesLink" href="/${seriesPage}">${seriesPage}</a>
-            % endif
-        </p>
-        % endif
-    </nav>
+    <div id="body-contents">
+        <header id="title-block-header">
+            <h1 class="title">${title}</h1>
+        </header>
+        <main>
+            ${contents}
+        </main>
+        <nav>
+            <hr id="nav-divider">
+            <div id="nav-contents">
+                % if previousPage is not None:
+                <p id="previousLink">
+                    <a href="/${previousPage}">&larr; Previous</a>
+                    % if seriesPage is not None:
+                    <br>
+                    In <a class="seriesLink" href="/${seriesPage}">${seriesPage}</a>
+                    % endif
+                </p>
+                % endif
+                <p id="homeLink">
+                    <a href="/">Home</a>
+                </p>
+                % if nextPage is not None:
+                <p id="nextLink">
+                    <a href="/${nextPage}">Next &rarr;</a>
+                    % if seriesPage is not None:
+                    <br>
+                    In <a class="seriesLink" href="/${seriesPage}">${seriesPage}</a>
+                    % endif
+                </p>
+                % endif
+            </div>
+        </nav>
+    </div>
 </body>
 
 </html>

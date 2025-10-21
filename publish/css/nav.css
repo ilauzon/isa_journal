@@ -1,9 +1,9 @@
-.navDivider {
+#nav-divider {
     margin-top: 8rem;
     margin-bottom: 2rem;
 }
 
-nav {
+#nav-contents {
     margin: 2rem 0;
     display: grid;
     grid-template-columns: 1fr min-content 1fr;
