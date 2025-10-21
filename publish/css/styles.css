@@ -1,0 +1,157 @@
+/* Base Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Root Theme Variables */
+:root {
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --color-bg: #ffffff;
+  --color-text: #111111;
+  --color-muted: #666666;
+  --color-border: #e5e5e5;
+  --color-accent: #0070f3;
+  /* Vercel blue */
+  --radius: 0.5rem;
+  --transition: 0.2s ease-in-out;
+}
+
+/* Body & Typography */
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  padding: 1rem;
+
+  /* Defaults from pandoc */
+  margin: 0 auto;
+  max-width: max(42em, 40vw);
+  hyphens: auto;
+  overflow-wrap: break-word;
+  text-rendering: optimizeLegibility;
+  font-kerning: normal;
+
+  /* custom */
+  list-style-position: inside;
+}
+
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+  color: var(--color-text);
+  margin-top: 0.75em;
+  margin-bottom: 0.25em;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+h3 {
+  font-size: 1.25rem;
+}
+
+p {
+  margin-top: 1rem;
+}
+
+code:not(.sourceCode *) {
+  font-size: 0.9em;
+}
+
+div.sourceCode {
+  background-color: #eeeeee;
+  color: black;
+  padding: 1em;
+  border-radius: 8px;
+}
+
+/* Lists */
+li::marker {
+  color: var(--color-muted)
+}
+
+ul, ol {
+  margin-top: 1rem;
+}
+
+/* Tables */
+table, th, td {
+  border: 1px solid var(--color-muted);
+}
+
+td {
+  padding: 0.4rem 0.5rem;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+/* Images */
+*:has(>img) {
+  text-align: center;
+}
+
+img {
+  max-width: 100%;
+}
+
+/* Links & Buttons */
+a {
+  color: var(--color-accent);
+  transition: color var(--transition), text-decoration-color var(--transition);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+}
+
+a:hover {
+  color: var(--color-text);
+  text-decoration-color: var(--color-text);
+}
+
+button {
+  background-color: var(--color-accent);
+  color: white;
+  font-weight: 500;
+  border: none;
+  border-radius: var(--radius);
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  transition: background-color var(--transition), transform var(--transition);
+}
+
+button:hover {
+  background-color: #0059c9;
+  transform: translateY(-1px);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #0c161c;
+    --color-text: #e5e5e5;
+    --color-border: #121a31;
+    --color-muted: #aaa;
+  }
+}

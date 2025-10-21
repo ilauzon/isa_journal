@@ -33,7 +33,9 @@ def render_html(markdown_pages: list[MdPage]) -> list[HtmlPage]:
             "-t",
             "html",
             "--metadata",
-            f"title={md_page.title}"
+            f"title={md_page.title}",
+            "--css",
+            "./static/css/styles.css"
         ), stdin=input.stdout)
 
         input.wait()
