@@ -4,8 +4,9 @@ from pathlib import Path
 from glob import glob
 import os
 import subprocess
-# import markdown
 import re
+from mako.template import Template
+import frontmatter
 
 def load_markdown_files(directory: str) -> list[MdPage]:
     md_file_names = glob("**/*.md", root_dir=directory, recursive=True)
@@ -19,14 +20,20 @@ def load_markdown_files(directory: str) -> list[MdPage]:
 
     return md_files
 
+def strip_wikilink_braces(wikilink: str) -> str:
+    return wikilink[2:-2]
+
 def render_html(markdown_pages: list[MdPage]) -> list[HtmlPage]:
     html_pages: list[HtmlPage] = []
+    template_html = ""
+    with open("template.html", "r") as file:
+        template_html = file.read()
 
     for md_page in markdown_pages:
+        front_matter = frontmatter.loads(md_page.contents)
         input = subprocess.Popen(("echo", md_page.contents), stdout=subprocess.PIPE)
         html_output = subprocess.check_output((
             "pandoc", 
-            "--standalone", 
             "--mathjax", 
             "-f", 
             "gfm+hard_line_breaks+wikilinks_title_after_pipe",
@@ -39,6 +46,26 @@ def render_html(markdown_pages: list[MdPage]) -> list[HtmlPage]:
         ), stdin=input.stdout)
 
         input.wait()
+
+        previous_page: str | None = front_matter.get("previous")
+
+        if (previous_page): previous_page = strip_wikilink_braces(previous_page)
+
+        next_page: str | None = front_matter.get("next")
+
+        if (next_page): next_page = strip_wikilink_braces(next_page)
+
+        series_page: str | None = front_matter.get("series")
+
+        if (series_page): series_page = strip_wikilink_braces(series_page)
+
+        html_output = Template(template_html).render(
+            title=md_page.title,
+            contents=html_output.decode("utf-8"),
+            previousPage=previous_page,
+            nextPage=next_page,
+            seriesPage=series_page,
+        )
 
         filename = re.sub(r'\s+', '_', md_page.title)
         html_pages.append(HtmlPage(filename, md_page.title, html_output))
@@ -59,7 +86,7 @@ def save_html_files(html_pages: list[HtmlPage], location: Path, index: str, inde
             save_name = html_page.filename + ".html"
             save_name = location / save_name
 
-        with open(save_name, "wb") as file:
+        with open(save_name, "w") as file:
             file.write(html_page.contents)
 
 if __name__ == "__main__":

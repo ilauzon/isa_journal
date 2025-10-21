@@ -1,0 +1,25 @@
+.navDivider {
+    margin-top: 8rem;
+    margin-bottom: 2rem;
+}
+
+nav {
+    margin: 2rem 0;
+    display: grid;
+    grid-template-columns: 1fr min-content 1fr;
+    text-align: center;
+}
+
+#previousLink {
+    grid-column: 1;
+    text-align: left;
+}
+
+#homeLink {
+    grid-column: 2;
+}
+
+#nextLink {
+    grid-column: 3;
+    text-align: right;
+}

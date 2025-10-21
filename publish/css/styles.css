@@ -33,7 +33,7 @@ body {
   color: var(--color-text);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  padding: 1rem;
+  padding: 1rem 1rem 0 1rem;
 
   /* Defaults from pandoc */
   margin: 0 auto;
@@ -149,7 +149,7 @@ button:hover {
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-bg: #0c161c;
+    --color-bg: #151a1e;
     --color-text: #e5e5e5;
     --color-border: #121a31;
     --color-muted: #aaa;
