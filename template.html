@@ -3,7 +3,6 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta name="generator" content="pandoc" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <title>${title}</title>
     <style>
@@ -45,6 +44,11 @@
                     <br>
                     In <a class="seriesLink" href="/${seriesPage}">${seriesPage}</a>
                     % endif
+                </p>
+                % endif
+                % if previousPage is None and nextPage is None and seriesPage is not None:
+                <p id="seriesLinkStandalone">
+                    Series: <a class="seriesLink" href="/${seriesPage}">${seriesPage}</a>
                 </p>
                 % endif
             </div>

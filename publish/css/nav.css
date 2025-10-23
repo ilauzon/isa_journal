@@ -7,7 +7,12 @@
     margin: 2rem 0;
     display: grid;
     grid-template-columns: 1fr min-content 1fr;
+    grid-template-rows: 1fr;
     text-align: center;
+
+    & > * {
+        grid-row: 1;
+    }
 }
 
 #previousLink {
@@ -22,4 +27,9 @@
 #nextLink {
     grid-column: 3;
     text-align: right;
+}
+
+#seriesLinkStandalone {
+    grid-column: 1;
+    text-align: left;
 }
