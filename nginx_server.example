@@ -1,0 +1,27 @@
+# This is an example of an HTTP server that serves the contents of the
+# publish/ directory. It is up to the author of the markdown files to 
+# provide an adequate way for the user to navigate files, the server 
+# does not provide a table of contents by default.
+
+server {
+	listen 80;
+	listen [::]:80;
+
+	root /path/to/publish/dir;
+	index index.html;
+
+	# Replace maximum of 3 or 1 underscores per internal redirect,
+	# produce 500 Internal Server Error after 10 internal redirects, 
+	# supporting at least 28 underscores (9*3 + 1*1) and at most 30 (10*3).
+    # Source: https://stackoverflow.com/a/52309059
+	location / {
+	        rewrite "^([^\s+]*)\s+([^\s+]*)\s+([^\s+]*)\s+(.*)$" $1_$2_$3_$4 last;
+	        rewrite "^([^\s+]*)\s+(.+)$" $1_$2 last;
+
+		try_files $uri $uri/ /html$uri.html =404;
+	}
+
+	location /static/ {
+		alias /path/to/publish/dir/;
+	}
+}
