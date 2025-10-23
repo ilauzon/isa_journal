@@ -13,7 +13,7 @@
   --color-bg: #eceff4;
   --color-text: #2e3440;
   --color-muted: #4c566a;
-  --color-border: rgb(242, 244, 248);
+  --color-border: rgb(192, 204, 227);
   --color-accent: #5e81ac;
   /* Vercel blue */
   --radius: 0.5rem;
@@ -47,6 +47,11 @@ body {
   font-kerning: normal;
 
   margin-bottom: 2rem;
+}
+
+input {
+  font-family: var(--font-sans);
+  font-size: 12pt;
 }
 
 #body-contents {

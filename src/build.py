@@ -9,6 +9,7 @@ from mako.template import Template
 import frontmatter
 from dirsync import sync
 import shutil
+import json
 
 def load_markdown_files(directory: str) -> list[MdPage]:
     md_file_names = glob("**/*.md", root_dir=directory, recursive=True)
@@ -67,6 +68,7 @@ def render_html(markdown_pages: list[MdPage]) -> list[HtmlPage]:
             previousPage=previous_page,
             nextPage=next_page,
             seriesPage=series_page,
+            isIndex=is_index(md_page.title),
         )
 
         filename = re.sub(r'\s+', '_', md_page.title)
@@ -88,7 +90,10 @@ def delete_old_publication():
     else:
         print(f"Directory '{publish_dir}' does not exist.")
 
-def save_html_files(html_pages: list[HtmlPage], location: Path, index: str, index_location: Path):
+def is_index(page_title: str) -> bool:
+    return page_title == config_data["index_file_name"]
+
+def save_html_files(html_pages: list[HtmlPage], location: Path, index_location: Path):
     old_files = glob(str(location) + '/*')
     for f in old_files:
         os.remove(f)
@@ -98,17 +103,25 @@ def save_html_files(html_pages: list[HtmlPage], location: Path, index: str, inde
     for html_page in html_pages:
         save_name = ""
 
-        if (html_page.title == index):
+        if (is_index(html_page.title)):
             save_name = index_location / "index.html"
-        else:
-            save_name = html_page.filename + ".html"
-            save_name = location / save_name
+            with open(save_name, "w") as file:
+                file.write(html_page.contents)
 
+        save_name = html_page.filename + ".html"
+        save_name = location / save_name
         with open(save_name, "w") as file:
             file.write(html_page.contents)
 
+
 def publish_css():
     sync("./src/css", "./publish/css", "sync", purge=True, create=True)
+
+def publish_js(titles: list[str]):
+    sync("./src/js", "./publish/js", "sync", purge=True, create=True)
+    json_string = json.dumps(titles)
+    with open("./publish/js/titles.json", "w") as file:
+        file.write(json_string)
 
 if __name__ == "__main__":
     try:
@@ -124,6 +137,7 @@ if __name__ == "__main__":
     md_files = load_markdown_files(config_data["source_dir"])
     html_files = render_html(md_files)
     delete_old_publication()
-    save_html_files(html_files, Path("./publish/html"), config_data["index_file_name"], Path("./publish"))
+    save_html_files(html_files, Path("./publish/html"), Path("./publish"))
     publish_css()
+    publish_js([file.title for file in md_files])
     
