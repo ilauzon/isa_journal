@@ -1,5 +1,4 @@
 .venv
 __pycache__
-publish/assets
-publish/html
-publish/index.html
+publish
+settings.yaml

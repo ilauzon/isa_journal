@@ -7,6 +7,8 @@ import subprocess
 import re
 from mako.template import Template
 import frontmatter
+from dirsync import sync
+import shutil
 
 def load_markdown_files(directory: str) -> list[MdPage]:
     md_file_names = glob("**/*.md", root_dir=directory, recursive=True)
@@ -26,7 +28,7 @@ def strip_wikilink_braces(wikilink: str) -> str:
 def render_html(markdown_pages: list[MdPage]) -> list[HtmlPage]:
     html_pages: list[HtmlPage] = []
     template_html = ""
-    with open("template.html", "r") as file:
+    with open("./src/template.html", "r") as file:
         template_html = file.read()
 
     for md_page in markdown_pages:
@@ -72,10 +74,26 @@ def render_html(markdown_pages: list[MdPage]) -> list[HtmlPage]:
 
     return html_pages
 
+def delete_old_publication():
+    publish_dir = "./publish"
+
+    if not os.path.isdir(publish_dir):
+        return
+
+    try:
+        shutil.rmtree(publish_dir)
+        print(f"Directory '{publish_dir}' and its contents deleted successfully.")
+    except OSError as e:
+        print(f"Error deleting directory '{publish_dir}': {e}")
+    else:
+        print(f"Directory '{publish_dir}' does not exist.")
+
 def save_html_files(html_pages: list[HtmlPage], location: Path, index: str, index_location: Path):
     old_files = glob(str(location) + '/*')
     for f in old_files:
         os.remove(f)
+
+    location.mkdir(parents=True, exist_ok=True)
 
     for html_page in html_pages:
         save_name = ""
@@ -88,6 +106,9 @@ def save_html_files(html_pages: list[HtmlPage], location: Path, index: str, inde
 
         with open(save_name, "w") as file:
             file.write(html_page.contents)
+
+def publish_css():
+    sync("./src/css", "./publish/css", "sync", purge=True, create=True)
 
 if __name__ == "__main__":
     try:
@@ -102,5 +123,7 @@ if __name__ == "__main__":
 
     md_files = load_markdown_files(config_data["source_dir"])
     html_files = render_html(md_files)
-    save_html_files(html_files, Path(config_data["html_dir"]), config_data["index_file_name"], Path(config_data["index_dir"]))
+    delete_old_publication()
+    save_html_files(html_files, Path("./publish/html"), config_data["index_file_name"], Path("./publish"))
+    publish_css()
     

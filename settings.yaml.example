@@ -1,0 +1,2 @@
+source_dir: '/path/to/markdown/directory/'
+index_file_name: 'Name of Site Index'
