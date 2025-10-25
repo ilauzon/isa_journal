@@ -4,6 +4,8 @@ This is my implementation of a website generator that takes in Markdown files fr
 
 ![Demo](docs/demo.png)
 
+DISCLAIMER: this is a bespoke solution to my specific problem. I do not expect I will generalize or extend this project for more flavours of Markdown or other advanced features. Many tools that do what I am doing already exist and will likely generalize better to your problem.
+
 ## Installation
 
 1. Install Python 3.10 or greater.
