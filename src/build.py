@@ -10,6 +10,7 @@ import frontmatter
 from dirsync import sync
 import shutil
 import json
+import string
 
 def load_markdown_files(directory: str) -> list[MdPage]:
     md_file_names = glob("**/*.md", root_dir=directory, recursive=True)
@@ -25,6 +26,19 @@ def load_markdown_files(directory: str) -> list[MdPage]:
 
 def strip_wikilink_braces(wikilink: str) -> str:
     return wikilink[2:-2]
+
+def format_all_headings(document: str) -> str:
+    pattern = r"\[\[([^\]#]+)#([^\]]+)\]\]"
+    formatted = re.sub(pattern, format_heading, document)
+    return formatted
+
+def format_heading(match):
+    page = match.group(1)
+    heading = match.group(2)
+    htmltag = re.sub(r'[^(a-z)(A-Z)(0-9) ]', '', heading) 
+    htmltag = re.sub(r'\s+' , ' ', htmltag)
+    htmltag = htmltag.lower().replace(' ', '-')
+    return f"[[{page}#{htmltag}]]"
 
 def render_html(markdown_pages: list[MdPage]) -> list[HtmlPage]:
     html_pages: list[HtmlPage] = []
@@ -135,6 +149,10 @@ if __name__ == "__main__":
         exit(1)
 
     md_files = load_markdown_files(config_data["source_dir"])
+
+    for md_file in md_files:
+        md_file.contents = format_all_headings(md_file.contents)
+
     html_files = render_html(md_files)
     delete_old_publication()
     save_html_files(html_files, Path("./publish/html"), Path("./publish"))
