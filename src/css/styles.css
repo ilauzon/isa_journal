@@ -32,13 +32,19 @@ body {
   color: var(--color-text);
   font-size: 12pt;
   padding: 1rem;
-  box-sizing: content-box;
+  box-sizing: border-box;
   box-shadow: rgba(184, 194, 215, 0.25) 0px 4px 6px, rgba(184, 194, 215, 0.1) 0px 5px 7px;
   list-style-position: inside;
   font-optical-sizing: auto;
-  border-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
   margin: 0 auto;
   max-width: 54em;
+  margin-bottom: 2rem;
+  min-height: calc(100vh - 2rem);
+
+  display: flex;
+  flex-direction: column;
 
   /* Defaults from pandoc */
   hyphens: auto;
@@ -46,7 +52,6 @@ body {
   text-rendering: optimizeLegibility;
   font-kerning: normal;
 
-  margin-bottom: 2rem;
 }
 
 input {
@@ -57,6 +62,13 @@ input {
 #body-contents {
   max-width: 42em;
   margin: 0 auto;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex-grow: 1;
 }
 
 /* Headings */
