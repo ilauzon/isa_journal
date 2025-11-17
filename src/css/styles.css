@@ -60,7 +60,8 @@ input {
 }
 
 #body-contents {
-  max-width: 42em;
+  max-width: min(100%, 42em);
+  min-width: 0;
   margin: 0 auto;
   flex-grow: 1;
   display: flex;
