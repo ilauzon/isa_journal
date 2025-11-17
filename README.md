@@ -26,4 +26,3 @@ DISCLAIMER: this is a bespoke solution to my specific problem. I do not expect I
 ## Todo
 - Add support for callouts with different types (`[!note]` vs. `[!important]`, for example)
 - Add support for vault attachments
-- Add a search box element that can be optionally included in the index
